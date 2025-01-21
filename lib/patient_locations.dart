@@ -2,8 +2,12 @@
 // firebase_core: ^latest_version
 // firebase_database: ^latest_version
 
+import 'package:emergency_system/location.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class PatientLocationService {
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
@@ -56,8 +60,9 @@ class PatientLocationService {
   void startLocationUpdates() {
     _locationSubscription = location.onLocationChanged.listen(
       (LocationData locationData) {
-        if (locationData.latitude == null || locationData.longitude == null)
+        if (locationData.latitude == null || locationData.longitude == null) {
           return;
+        }
 
         // Update location in Firebase
         updateLocationInFirebase(
@@ -115,7 +120,7 @@ class _LocationScreenState extends State<LocationScreen> {
   void initState() {
     super.initState();
     // Initialize with a unique patient ID (you should generate this when patient registers)
-    locationService = PatientLocationService(
+    _locationService = PatientLocationService(
         patientId: 'patient${DateTime.now().millisecondsSinceEpoch}');
     _initializeServices();
   }
@@ -134,4 +139,13 @@ class _LocationScreenState extends State<LocationScreen> {
     _locationService.stopLocationUpdates();
     super.dispose();
   }
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+void _showMessage(String s) {
 }

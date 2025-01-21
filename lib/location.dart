@@ -113,8 +113,9 @@ class _LocationScreenState extends State<LocationScreen> {
   void _startLocationTracking() {
     _locationSubscription = location.onLocationChanged.listen(
       (LocationData locationData) {
-        if (locationData.latitude == null || locationData.longitude == null)
+        if (locationData.latitude == null || locationData.longitude == null) {
           return;
+        }
 
         setState(() {
           _currentLocation =
